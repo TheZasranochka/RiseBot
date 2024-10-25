@@ -1,0 +1,15 @@
+{
+  "name": "yudu-bot",
+  "version": "1.0.0",
+  "description": "Автоотклик на задания Юду и уведомления в Telegram",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "cheerio": "^1.0.0-rc.10",
+    "node-telegram-bot-api": "^0.56.0",
+    "puppeteer": "^23.6.0"
+  }
+}
