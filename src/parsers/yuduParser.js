@@ -4,7 +4,7 @@ const path = require('path');
 
 const COOKIES_PATH = path.join(__dirname, 'cookies.json');
 
-// Функция для загрузки cookies
+
 async function loadCookies(page) {
     try {
         const cookiesString = await fs.readFile(COOKIES_PATH);
@@ -14,9 +14,8 @@ async function loadCookies(page) {
     } catch (err) {
         if (err.code === 'ENOENT') {
             console.log('Cookies не найдены, выполняем авторизацию для их создания...');
-            await authorizeAndSaveCookies(); // Вызов авторизации, если файл не найден
-            // После авторизации можно попробовать снова загрузить cookies
-            await loadCookies(page); // Повторная попытка загрузки
+            await authorizeAndSaveCookies();
+            await loadCookies(page);
         } else {
             console.error('Не удалось загрузить cookies:', err);
         }
@@ -44,7 +43,7 @@ async function sendAutoReply(task) {
     }
 }
 
-// Функция для парсинга заданий
+
 async function parseYuduTasks() {
     const url = `https://youdo.com/tasks-all-opened-all`;
     const tasks = [];
@@ -81,7 +80,7 @@ async function authorizeAndSaveCookies() {
     try {
         await page.goto('https://youdo.com', { waitUntil: 'networkidle2' });
 
-        // Проверка видимости элемента перед кликом
+
         await page.waitForSelector('.toolbar_logo__nqI8O', { visible: true, timeout: 60000 });
         await page.evaluate(() => {
             const elem = document.querySelector('.toolbar_logo__nqI8O');
@@ -90,7 +89,7 @@ async function authorizeAndSaveCookies() {
 
         console.log('Первая кнопка нажата, ожидаем меню с кнопкой "Войти"...');
 
-        // Проверка видимости следующего элемента перед кликом
+ 
         await page.waitForSelector('.MobileMenu_linksItem__OhHQ7 span', { visible: true, timeout: 60000 });
         await page.evaluate(() => {
             const elem = document.querySelector('.MobileMenu_linksItem__OhHQ7 span');
@@ -99,20 +98,19 @@ async function authorizeAndSaveCookies() {
 
         console.log('Кнопка "Войти" нажата, ожидаем страницу авторизации...');
 
-        // Клик на "Войти по email" с проверкой
         await page.waitForSelector('span[data-test="LoginWithEmailButton"]', { visible: true, timeout: 60000 });
         await page.evaluate(() => {
             const elem = document.querySelector('span[data-test="LoginWithEmailButton"]');
             if (elem) elem.click();
         });
 
-        // Заполнение email и пароля
+
         await page.waitForSelector('input[type="email"]', { timeout: 60000 });
         await page.type('input[type="email"]', 'zhranitelz9@gmail.com');
         await page.waitForSelector('input[type="password"]', { timeout: 60000 });
         await page.type('input[type="password"]', 'Deniilskywarser1!');
 
-        // Отправка формы авторизации
+
         await page.click('button[type="submit"]');
         await page.waitForNavigation({ waitUntil: 'networkidle2' });
 
