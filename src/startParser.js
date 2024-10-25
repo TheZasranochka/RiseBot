@@ -2,7 +2,7 @@ const { parseYuduTasks, authorizeAndSaveCookies, sendAutoReply, checkIfCookiesEx
 const { notifyUserAboutTask } = require('./bot/bot');
 const config = require('./config');
 
-// Функция для проверки новых заданий
+
 async function checkForNewTasks() {
     try {
         const tasks = await parseYuduTasks();
@@ -23,18 +23,18 @@ async function checkForNewTasks() {
     }
 }
 
-// Функция для проверки cookies и авторизации
+
 async function checkCookiesAndAuthorize() {
     const cookiesExist = await checkIfCookiesExist();
     if (!cookiesExist) {
         console.log('Cookies не найдены, выполняем авторизацию...');
-        await authorizeAndSaveCookies();  // Вызов функции авторизации
+        await authorizeAndSaveCookies();  
     } else {
         console.log('Cookies найдены, авторизация не требуется.');
     }
 }
 
-// Запуск с проверкой cookies и авторизацией, если необходимо
+
 async function startParser() {
     try {
         await checkCookiesAndAuthorize();
@@ -46,5 +46,5 @@ async function startParser() {
     }
 }
 
-// Запуск основного процесса
+
 startParser();
